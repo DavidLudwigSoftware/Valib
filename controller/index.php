@@ -12,8 +12,6 @@ class IndexController extends Controller
 		$r  = $app->request();
 		$f  = $app->form();
 
-		var_dump($f->email('email', 'test@newspawn.org'));
-
 		$s->start();
 		$s->set('test', 'test value');
 		$s->destroy();

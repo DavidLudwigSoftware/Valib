@@ -52,18 +52,20 @@ class FloatField extends FormField
 
 		if ($this->value() === Null && $this->isRequired())
 
-			$errors[] = Field::Void;
+			$errors[] = Form::VOID;
 
 		if ($this->value() !== Null && $this->value() < $this->minimum() && $this->minimum() !== Null)
 
-			$errors[] = Field::Small;
+			$errors[] = Form::SMALL;
 
 		if ($this->value() !== Null && $this->value() > $this->maximum() && $this->maximum() !== Null)
 
-			$errors[] = Field::Large;
+			$errors[] = Form::LARGE;
 
 		return $errors;
 	}
 }
+
+Form::RegisterField('FloatField');
 
 ?>

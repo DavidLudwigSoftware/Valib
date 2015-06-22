@@ -41,22 +41,24 @@ class UsernameField extends FormField
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Field::Void;
+			$errors[] = Form::VOID;
 
 		if (strlen($this->value()) < $this->minimumLength())
 
-			$errors[] = Field::Short;
+			$errors[] = Form::SHORT;
 
 		if (strlen($this->value()) > $this->maximumLength())
 
-			$errors[] = Field::Long;
+			$errors[] = Form::LONG;
 
 		if (implode(preg_split('/' . $this->_regex . '/', $this->value())) !== '')
 
-			$errors[] = Field::Invalid;
+			$errors[] = Form::INVALID;
 
 		return $errors;
 	}
 }
+
+Form::RegisterField('UsernameField');
 
 ?>

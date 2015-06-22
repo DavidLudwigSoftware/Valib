@@ -29,14 +29,16 @@ class PhoneNumberField extends FormField
 
 		if (empty(parent::value()) && strlen(parent::value()) == 0 && $this->isRequired())
 
-			$errors[] = Field::Void;
+			$errors[] = Form::VOID;
 
 		if (implode(preg_split('/^(\+)?(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i', parent::value())) !== '')
 
-			$errors[] = Field::Invalid;
+			$errors[] = Form::INVALID;
 
 		return $errors;
 	}
 }
+
+Form::RegisterField('PhoneNumberField');
 
 ?>

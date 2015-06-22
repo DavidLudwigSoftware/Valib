@@ -21,15 +21,15 @@ class EmailField extends FormField
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Field::Void;
+			$errors[] = Form::VOID;
 
 		if (!empty($this->value()) && !filter_var($this->value(), FILTER_VALIDATE_EMAIL))
 
-			$errors[] = Field::Invalid;
+			$errors[] = Form::INVALID;
 
 		if ($this->maximumLength() !== Null && strlen($this->value()) > $this->maximumLength())
 
-			$errors[] = Field::Long;
+			$errors[] = Form::LONG;
 
 		return $errors;
 	}

@@ -9,14 +9,16 @@ class UrlField extends FormField
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Field::Void;
+			$errors[] = Form::VOID;
 
 		if (!empty($this->value()) && !filter_var($this->value(), FILTER_VALIDATE_URL))
 
-			$errors[] = Field::Invalid;
+			$errors[] = Form::INVALID;
 
 		return $errors;
 	}
 }
+
+Form::RegisterField('UrlField');
 
 ?>

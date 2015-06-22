@@ -6,7 +6,7 @@ class PasswordField extends FormField
 	private $_minLen = 8;
 	private $_options;
 
-	public function __construct($id, $value, $minLen = 8, $options = Field::Standard, $required = True)
+	public function __construct($id, $value, $minLen = 8, $options = Form::Standard, $required = True)
 	{
 		$this->_minLen = ($minLen === Null) ? 8 : intval($minLen);
 		$this->_options = $options;
@@ -40,23 +40,23 @@ class PasswordField extends FormField
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Field::Void;
+			$errors[] = Form::VOID;
 
 		if ($this->minimumLength() !== Null && strlen($this->value()) < $this->minimumLength())
 
-			$errors[] = Field::Short;
+			$errors[] = Form::SHORT;
 
-		if ($this->options() & Field::MixedCase && !preg_match('/([A-Z][a-z])|([a-z][A-Z])/', $this->value()))
+		if ($this->options() & Form::MixedCase && !preg_match('/([A-Z][a-z])|([a-z][A-Z])/', $this->value()))
 
-			$errors[] = Field::Invalid;
+			$errors[] = Form::INVALID;
 
-		if ($this->options() & Field::Numbers && !preg_match('/[0-9]/', $this->value()))
+		if ($this->options() & Form::Numbers && !preg_match('/[0-9]/', $this->value()))
 
-			$errors[] = Field::Invalid;
+			$errors[] = Form::INVALID;
 
-		if ($this->options() & Field::Symbols && !preg_match('/[^a-zA-Z\d\s:]/', $this->value()))
+		if ($this->options() & Form::Symbols && !preg_match('/[^a-zA-Z\d\s:]/', $this->value()))
 
-			$errors[] = Field::Invalid;
+			$errors[] = Form::INVALID;
 
 		$errors->removeDuplicates();
 
@@ -64,5 +64,7 @@ class PasswordField extends FormField
 	}
 
 }
+
+Form::RegisterField('PasswordField');
 
 ?>

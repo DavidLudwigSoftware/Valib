@@ -3,7 +3,6 @@
 
 class FormField
 {
-
 	private $_id;
 	private $_value;
 	private $_required;
@@ -43,7 +42,7 @@ class FormField
 
 		if (empty($this->_value) && $this->isRequired())
 
-			$errors[] = Field::Void;
+			$errors[] = Form::VOID;
 
 		return $errors;
 	}

@@ -33,18 +33,20 @@ class NameField extends FormField
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Field::Void;
+			$errors[] = Form::VOID;
 
 		if (strlen($this->value()) > $this->maximumLength())
 
-			$errors[] = Field::Long;
+			$errors[] = Form::LONG;
 
 		if (preg_match('/[^A-Za-z\s]/', $this->value()))
 
-			$errors[] = Field::Invalid;
+			$errors[] = Form::INVALID;
 
 		return $errors;
 	}
 }
+
+Form::RegisterField('NameField');
 
 ?>

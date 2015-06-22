@@ -1,7 +1,7 @@
 <?php
 
 
-class VRegularExpression extends FormField
+class RegularExpressionField extends FormField
 {
 	public function validate()
 	{
@@ -9,14 +9,16 @@ class VRegularExpression extends FormField
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Field::Void;
+			$errors[] = Form::VOID;
 
 		if (!empty($this->value()) && !filter_var($this->value(), FILTER_VALIDATE_REGEXP))
 
-			$errors[] = Field::Invalid;
+			$errors[] = Form::INVALID;
 
 		return $errors;
 	}
 }
+
+Form::RegisterField('RegularExpresionField');
 
 ?>

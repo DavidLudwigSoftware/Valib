@@ -37,18 +37,20 @@ class TextField extends FormField
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Field::Void;
+			$errors[] = Form::VOID;
 
 		if ($this->minimumLength() !== Null && strlen($this->value()) < $this->minimumLength())
 
-			$errors[] = Field::Short;
+			$errors[] = Form::SHORT;
 
 		if ($this->maximumLength() !== Null && strlen($this->value()) > $this->maximumLength())
 
-			$errors[] = Field::Long;
+			$errors[] = Form::LONG;
 
 		return $errors;
 	}
 }
+
+Form::RegisterField('TextField');
 
 ?>
