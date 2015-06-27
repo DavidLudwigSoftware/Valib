@@ -5,22 +5,31 @@ class IndexController extends Controller
 {
 	public function index($app, $data)
 	{
-		$c  = $app->cookie();
-		$s  = $app->session();
-		$t  = $app->template();
-		$cr = $app->cryptography();
-		$r  = $app->request();
-		$f  = $app->form();
+		if ($app->request()->postExists('firstname', 'lastname',
+										'email', 'phone', 'username',
+										'password', 'repassword'))
+		{
+			$r    = $app->request();
+			$form = $app->form();
 
-		$s->start();
-		$s->set('test', 'test value');
-		$s->destroy();
+			$firstName  = $form->name('firstname',      $r->post('firstname'));
+			$lastName   = $form->name('lastname',       $r->post('lastname'));
+			$email      = $form->email('email',         $r->post('email'));
+			$phone      = $form->phoneNumber('phone',   $r->post('phone'));
+			$username   = $form->username('username',   $r->post('username'));
+			$password   = $form->password('password',   $r->post('password'));
+			$repassword = $form->password('repassword', $r->post('repassword'));
+
+			$result = $form->validate([$firstName, $lastName, $email, $phone, $username, $password, $repassword]);
+
+			var_dump($result->isValid());
+		}
+
+		$t = $app->template();
 		
-		$t->title('This is the title');
-		$t->header1('Ths is a heading');
-		$t->paragraph1('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque iure quasi dolorum libero unde accusamus esse, atque tempora corporis. Quam sint expedita velit possimus, eum laborum numquam assumenda aspernatur pariatur!');
-		$t->paragraph1($s->get('test'));
-		$t->javascriptHead('js/test.js');
+		$t->title('Register');
+		$t->header1('Register');
+		$t->paragraph1('Fill out the form below to register');
 
 		$t->render('index');
 	}

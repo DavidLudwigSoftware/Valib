@@ -6,7 +6,7 @@ class PasswordField extends FormField
 	private $_minLen = 8;
 	private $_options;
 
-	public function __construct($id, $value, $minLen = 8, $options = Form::Standard, $required = True)
+	public function __construct($id, $value, $minLen = 8, $options = Form::PASSWORD_STANDARD, $required = True)
 	{
 		$this->_minLen = ($minLen === Null) ? 8 : intval($minLen);
 		$this->_options = $options;
@@ -46,21 +46,19 @@ class PasswordField extends FormField
 
 			$errors[] = Form::SHORT;
 
-		if ($this->options() & Form::MixedCase && !preg_match('/([A-Z][a-z])|([a-z][A-Z])/', $this->value()))
+		if ($this->options() & Form::PASSWORD_MIXED_CASE && !preg_match('/([A-Z][a-z])|([a-z][A-Z])/', $this->value()))
 
 			$errors[] = Form::INVALID;
 
-		if ($this->options() & Form::Numbers && !preg_match('/[0-9]/', $this->value()))
+		if ($this->options() & Form::PASSWORD_NUMBERS && !preg_match('/[0-9]/', $this->value()))
 
 			$errors[] = Form::INVALID;
 
-		if ($this->options() & Form::Symbols && !preg_match('/[^a-zA-Z\d\s:]/', $this->value()))
+		if ($this->options() & Form::PASSWORD_SYMBOLS && !preg_match('/[^a-zA-Z\d\s:]/', $this->value()))
 
 			$errors[] = Form::INVALID;
 
-		$errors->removeDuplicates();
-
-		return $errors;
+		return array_unique($errors);
 	}
 
 }

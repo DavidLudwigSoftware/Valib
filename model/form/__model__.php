@@ -1,6 +1,7 @@
 <?php
 
 require_once __MODEL_PATH . '/form/form.php';
+require_once __MODEL_PATH . '/form/formresult.php';
 
 require_once __MODEL_PATH . '/form/fields/formfield.php';
 require_once __MODEL_PATH . '/form/fields/email.php';
