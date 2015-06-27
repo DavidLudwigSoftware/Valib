@@ -25,7 +25,7 @@ class Database extends PDO
 		global $V_SETTINGS;
 
 		$username = 'root';
-		$password = 'helloworld';
+		$password = '';
 
 		$dns = 'mysql' .
 		':host=' . 'localhost' .
