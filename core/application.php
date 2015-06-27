@@ -1,5 +1,6 @@
 <?php
 
+require_once 'configuration.php';
 require_once 'definitions.php';
 require_once 'controller.php';
 require_once 'registry.php';
@@ -9,11 +10,18 @@ class Application
 {
 	private static $_instance = Null;
 
-	public function __construct()
+	public function __construct($iniPath)
 	{
 		self::$_instance = $this;
 
+		Configuration::Init($iniPath);
+
 		Router::Init($this);
+	}
+
+	public function configuration()
+	{
+		return Configuration::Instance();
 	}
 
 	public function registry()

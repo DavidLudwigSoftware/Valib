@@ -22,15 +22,15 @@ class Database extends PDO
 	*/
 	public function __construct()
 	{
-		global $V_SETTINGS;
+		$config = Application::Instance()->configuration()['database'];
 
-		$username = 'root';
-		$password = '';
+		$host     = $config['host'];
+		$username = $config['username'];
+		$password = $config['password'];
+		$port     = ((!empty($config['port'])) ? (';port=' . $config['port']) : '');
+		$schema   = $config['schema'];
 
-		$dns = 'mysql' .
-		':host=' . 'localhost' .
-		((!empty($V_SETTINGS['database']['port'])) ? (';port=' . $V_SETTINGS['database']['port']) : '') .
-		';dbname=' . 'sakila';
+		$dns = 'mysql:host=' . $host . $port . ';dbname=' . $schema;
 
 		parent::__construct($dns, $username, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 

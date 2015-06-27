@@ -5,6 +5,7 @@ class IndexController extends Controller
 {
 	public function index($app, $data)
 	{
+		$db = $app->database();
 		if ($app->request()->postExists('firstname', 'lastname',
 										'email', 'phone', 'username',
 										'password', 'repassword'))
