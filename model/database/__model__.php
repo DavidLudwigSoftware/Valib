@@ -1,6 +1,6 @@
 <?php
 
-require_once 'database.php';
-require_once 'selectors.php';
+require_once MODEL_PATH . '/database/database.php';
+require_once MODEL_PATH . '/database/selectors.php';
 
 $__model = new Database();

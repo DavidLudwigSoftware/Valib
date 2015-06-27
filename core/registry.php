@@ -16,7 +16,7 @@ class Registry
 		$index = strtolower($index);
 
 		if (isset(self::$_objects[$index]))
-		
+
 			return self::$_objects[$index];
 
 		return self::LoadModel($index);
@@ -24,14 +24,14 @@ class Registry
 
 	public static function LoadModel($name)
 	{
-		$fileName = __SITE_PATH . '/model/' . $name;
+		$fileName = SITE_PATH . '/model/' . $name;
 
 		if (is_file($fileName . '.php'))
-		
+
 			include $fileName . '.php';
-		
+
 		elseif (is_dir($fileName))
-		
+
 			include $fileName . '/__model__.php';
 
 		else

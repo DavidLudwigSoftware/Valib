@@ -27,7 +27,7 @@ class IndexController extends Controller
 		}
 
 		$t = $app->template();
-		
+
 		$t->title('Register');
 		$t->header1('Register');
 		$t->paragraph1('Fill out the form below to register');

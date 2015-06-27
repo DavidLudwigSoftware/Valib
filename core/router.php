@@ -57,7 +57,7 @@ class Router
 
 	protected static function InitController()
 	{
-		$file = __SITE_PATH . '/controller/' . strtolower(self::$_file) . '.php';
+		$file = SITE_PATH . '/controller/' . strtolower(self::$_file) . '.php';
 
 		if (is_file($file))
 		{
@@ -87,7 +87,7 @@ class Router
 			self::$_controller->$action($app, self::$_data);
 		}
 		else
-		
+
 			self::$_status = STATUS_NOT_FOUND;
 	}
 

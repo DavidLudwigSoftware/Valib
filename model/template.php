@@ -66,7 +66,7 @@ class Template
 	{
 		ob_start();
 
-		include __SITE_PATH . '/view/' . $template . '.php';
+		include VIEW_PATH . '/' . $template . '.php';
 
 		$page = ob_get_contents();
 
@@ -76,7 +76,7 @@ class Template
 	}
 
 	public function format(&$page)
-	{	
+	{
 		$metaHtml = "";
 
 		foreach (array_keys($this->_metadata) as $name)
