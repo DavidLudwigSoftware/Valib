@@ -1,4 +1,4 @@
-Valib v0.6.0
+Valib v0.8.0
 
 Created by David Ludwig
 http://davidludwig.net
