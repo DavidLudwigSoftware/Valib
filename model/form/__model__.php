@@ -21,5 +21,6 @@ require_once MODEL_PATH . '/form/fields/username.php';
 require_once MODEL_PATH . '/form/rules/formrule.php';
 require_once MODEL_PATH . '/form/rules/matches.php';
 require_once MODEL_PATH . '/form/rules/mismatches.php';
+require_once MODEL_PATH . '/form/rules/unique.php';
 
 $__model = new Form();
