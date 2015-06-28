@@ -1,4 +1,4 @@
-Valib v0.0.1
+Valib v0.6.0
 
 Created by David Ludwig
 http://davidludwig.net
@@ -12,7 +12,7 @@ Some of Valib's features include:
 	Form Validation
 
 	Session and Cookie Management
-	
+
 	Request Management
 
 	Cryptography using OpenSSL
