@@ -29,21 +29,21 @@ class NameField extends FormField
 
 	public function validate()
 	{
-		$errors = array();
+		$this->_errors = array();
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Form::VOID;
+			$this->addError('void', 'Enter a name');
 
 		if (strlen($this->value()) > $this->maximumLength())
 
-			$errors[] = Form::LONG;
+			$this->addError('long', 'Name is too long');
 
 		if (preg_match('/[^A-Za-z\s]/', $this->value()))
 
-			$errors[] = Form::INVALID;
+			$this->addError('invalid', 'Name is invalid');
 
-		return $errors;
+		return $this->_errors;
 	}
 }
 

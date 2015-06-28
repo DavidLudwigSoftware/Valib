@@ -1,7 +1,7 @@
 <?php
 
 
-class FloatField extends FormField 
+class FloatField extends FormField
 {
 	private $_min = Null;
 	private $_max = Null;
@@ -48,21 +48,21 @@ class FloatField extends FormField
 
 	public function validate()
 	{
-		$errors = array();
+		$this->_errors = array();
 
 		if ($this->value() === Null && $this->isRequired())
 
-			$errors[] = Form::VOID;
+			$this->addError('void', 'Enter a number');
 
 		if ($this->value() !== Null && $this->value() < $this->minimum() && $this->minimum() !== Null)
 
-			$errors[] = Form::SMALL;
+			$this->addError('small', 'Number is too small');
 
 		if ($this->value() !== Null && $this->value() > $this->maximum() && $this->maximum() !== Null)
 
-			$errors[] = Form::LARGE;
+			$this->addError('large', 'Number is too large');
 
-		return $errors;
+		return $this->_errors;
 	}
 }
 

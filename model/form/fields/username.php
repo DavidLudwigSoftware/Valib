@@ -37,25 +37,25 @@ class UsernameField extends FormField
 
 	public function validate()
 	{
-		$errors = array();
+		$this->_errors = array();
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Form::VOID;
+			$this->addError('void', 'Enter a username');
 
 		if (strlen($this->value()) < $this->minimumLength())
 
-			$errors[] = Form::SHORT;
+			$this->addError('short', 'Username is too short');
 
 		if (strlen($this->value()) > $this->maximumLength())
 
-			$errors[] = Form::LONG;
+			$this->addError('long', 'Username is too long');
 
 		if (implode(preg_split('/' . $this->_regex . '/', $this->value())) !== '')
 
-			$errors[] = Form::INVALID;
+			$this->addError('invalid', 'Username is invalid');
 
-		return $errors;
+		return $this->_errors;
 	}
 }
 

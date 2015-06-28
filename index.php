@@ -2,7 +2,7 @@
 
 error_reporting(E_ALL | E_STRICT | E_DEPRECATED);
 
-const INI_PATH = 'valib.ini';
+const INI_PATH = 'valib.json';
 
 require_once 'core/application.php';
 

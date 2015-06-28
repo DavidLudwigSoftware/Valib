@@ -40,9 +40,9 @@ class Configuration implements ArrayAccess
 		return isset($this->_container[$offset]) ? $this->_container[$offset] : Null;
 	}
 
-	public static function Init($iniPath)
+	public static function Init($configPath)
 	{
-		new self(parse_ini_file($iniPath, True));
+		new self(json_decode(file_get_contents($configPath), True));
 	}
 
 	public static function Instance()

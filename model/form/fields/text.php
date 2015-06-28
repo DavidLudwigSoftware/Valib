@@ -33,21 +33,21 @@ class TextField extends FormField
 
 	public function validate()
 	{
-		$errors = array();
+		$this->_errors = array();
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Form::VOID;
+			$this->addError('void', 'Fill in the text field');
 
 		if ($this->minimumLength() !== Null && strlen($this->value()) < $this->minimumLength())
 
-			$errors[] = Form::SHORT;
+			$this->addError('short', 'Text field is too short');
 
 		if ($this->maximumLength() !== Null && strlen($this->value()) > $this->maximumLength())
 
-			$errors[] = Form::LONG;
+			$this->addError('long', 'Text field is too long');
 
-		return $errors;
+		return $this->_errors;
 	}
 }
 

@@ -6,14 +6,30 @@ class FormField
 	private $_id;
 	private $_value;
 	private $_required;
-	private $_errors;
 	private $_trim = True;
-	
+
+	protected $_errors;
+
+
 	public function __construct($id, $value, $required = True)
 	{
 		$this->_id       = (string) $id;
 		$this->_value    =          $value;
 		$this->_required = (bool)   $required;
+	}
+
+	public function addError($name, $message)
+	{
+		$this->_errors[$name] = new FormError($this, $name, $message);
+	}
+
+	public function firstError()
+	{
+		if ($this->hasErrors())
+
+			return $this->_errors[array_keys($this->_errors)[0]];
+
+		return Null;
 	}
 
 	public function hasErrors()
@@ -33,18 +49,18 @@ class FormField
 
 	public function isValid()
 	{
-		return empty($this->validate());
+		return empty($this->_errors);
 	}
 
 	public function validate()
 	{
-		$errors = array();
+		$this->_errors = array();
 
 		if (empty($this->_value) && $this->isRequired())
 
-			$errors[] = Form::VOID;
+			$this->addError('void', '{FIELD} is void');
 
-		return $errors;
+		return $this->_errors;
 	}
 
 	public function id()
@@ -55,6 +71,11 @@ class FormField
 	public function value()
 	{
 		return ($this->_trim) ? trim($this->_value) : $this->_value;
+	}
+
+	public function valueFormatted()
+	{
+		return $this->value();
 	}
 
 	public function setId($id)

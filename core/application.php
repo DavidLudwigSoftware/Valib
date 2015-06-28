@@ -10,11 +10,11 @@ class Application
 {
 	private static $_instance = Null;
 
-	public function __construct($iniPath)
+	public function __construct($configPath)
 	{
 		self::$_instance = $this;
 
-		Configuration::Init($iniPath);
+		Configuration::Init($configPath);
 
 		Router::Init($this);
 	}

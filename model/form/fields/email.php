@@ -17,21 +17,21 @@ class EmailField extends FormField
 
 	public function validate()
 	{
-		$errors = array();
+		$this->_errors = array();
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Form::VOID;
+			$this->addError('void', 'Enter an email address');
 
 		if (!empty($this->value()) && !filter_var($this->value(), FILTER_VALIDATE_EMAIL))
 
-			$errors[] = Form::INVALID;
+			$this->addError('invalid', 'Email address is invalid');
 
 		if ($this->maximumLength() !== Null && strlen($this->value()) > $this->maximumLength())
 
-			$errors[] = Form::LONG;
+			$this->addError('long', 'Email address is too long');
 
-		return $errors;
+		return $this->_errors;
 	}
 }
 

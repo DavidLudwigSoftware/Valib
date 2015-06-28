@@ -36,29 +36,29 @@ class PasswordField extends FormField
 
 	public function validate()
 	{
-		$errors = array();
+		$this->_errors = array();
 
 		if (empty($this->value()) && strlen($this->value()) == 0 && $this->isRequired())
 
-			$errors[] = Form::VOID;
+			$this->addError('void', 'Enter a password');
 
 		if ($this->minimumLength() !== Null && strlen($this->value()) < $this->minimumLength())
 
-			$errors[] = Form::SHORT;
+			$this->addError('short', 'Password is too short');
 
 		if ($this->options() & Form::PASSWORD_MIXED_CASE && !preg_match('/([A-Z][a-z])|([a-z][A-Z])/', $this->value()))
 
-			$errors[] = Form::INVALID;
+			$this->addError('invalid', 'Password is invalid');
 
 		if ($this->options() & Form::PASSWORD_NUMBERS && !preg_match('/[0-9]/', $this->value()))
 
-			$errors[] = Form::INVALID;
+			$this->addError('invalid', 'Password is invalid');
 
 		if ($this->options() & Form::PASSWORD_SYMBOLS && !preg_match('/[^a-zA-Z\d\s:]/', $this->value()))
 
-			$errors[] = Form::INVALID;
+			$this->addError('invalid', 'Password is invalid');
 
-		return array_unique($errors);
+		return $this->_errors;
 	}
 
 }

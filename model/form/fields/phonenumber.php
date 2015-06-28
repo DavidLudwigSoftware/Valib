@@ -25,17 +25,17 @@ class PhoneNumberField extends FormField
 
 	public function validate()
 	{
-		$errors = array();
+		$this->_errors = array();
 
 		if (empty(parent::value()) && strlen(parent::value()) == 0 && $this->isRequired())
 
-			$errors[] = Form::VOID;
+			$this->addError('void', 'Enter a phone number');
 
 		if (implode(preg_split('/^(\+)?(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i', parent::value())) !== '')
 
-			$errors[] = Form::INVALID;
+			$this->addError('invalid', 'Phone number is invalid');
 
-		return $errors;
+		return $this->_errors;
 	}
 }
 
