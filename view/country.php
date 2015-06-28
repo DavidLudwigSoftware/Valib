@@ -10,7 +10,7 @@
     </head>
     <body>
         <form action="" method="post">
-            <input type="text" name="country" value="<?php echo Application::Instance()->request()->post('repassword'); ?>">
+            <input type="text" name="country" value="<?php echo Application::Instance()->request()->post('country'); ?>">
             <input type="submit" value="Add Country">
         </form>
     </body>
