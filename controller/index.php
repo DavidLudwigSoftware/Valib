@@ -21,9 +21,14 @@ class IndexController extends Controller
 			$password   = $form->password('password',   $r->post('password'));
 			$repassword = $form->password('repassword', $r->post('repassword'));
 
-			$result = $form->validate([$firstName, $lastName, $email, $phone, $username, $password, $repassword]);
+			$result = $form->validate([$firstName, $lastName, $email, $phone, $username, $password, $repassword],
+									  [$form->matches($repassword, $password, 'Passwords don\'t match')]);
 
-			var_dump($result->isValid());
+			if (!$result->isValid())
+
+				foreach ($result->errorFields() as $field)
+
+					echo $field->firstError()->message(), '<br>';
 		}
 
 		$t = $app->template();

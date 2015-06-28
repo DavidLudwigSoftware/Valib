@@ -1,7 +1,7 @@
 <?php
 
 
-class MatchesRule extends FormRule
+class MismatchesRule extends FormRule
 {
     private $_field1;
     private $_field2;
@@ -11,14 +11,14 @@ class MatchesRule extends FormRule
     {
         $this->_field1 = $field1;
         $this->_field2 = $field2;
-        $this->_message = ($message) ? $message : '{FIELD1} doesn\'t match {FIELD2}';
+        $this->_message = ($message) ? $message : '{FIELD1} and {FIELD2} can\'t be the same';
     }
 
     public function validate()
     {
-        if ($this->_field1->value() !== $this->_field2->value())
+        if ($this->_field1->value() === $this->_field2->value())
         {
-            $this->_field1->addError('matches', $this->formatMessage());
+            $this->_field1->addError('mismatches', $this->formatMessage());
         }
     }
 
@@ -31,4 +31,4 @@ class MatchesRule extends FormRule
 
 }
 
-Form::RegisterRule('MatchesRule');
+Form::RegisterRule('MismatchesRule');

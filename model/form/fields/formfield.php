@@ -23,6 +23,11 @@ class FormField
 		$this->_errors[$name] = new FormError($this, $name, $message);
 	}
 
+	public function errors()
+	{
+		return $this->_errors;
+	}
+
 	public function firstError()
 	{
 		if ($this->hasErrors())

@@ -3,29 +3,39 @@
 
 class FormResult
 {
-	private $_errors = array();
+	private $_fields = array();
 
 	public function isValid()
 	{
-		return empty($this->_errors);
+		return empty($this->errorFields());
 	}
 
 	public function hasError($fieldId)
 	{
-		if (isset($this->_errors[$fieldId]))
+		if (isset($this->_fields[$fieldId]))
 
-			return True;
+			if ($this->_fields[$fieldId]->hasErrors())
+
+				return True;
 
 		return False;
 	}
 
-	public function addError($id, $error)
+	public function addField($field)
 	{
-		$this->_errors[$id] = $error;
+		$this->_fields[$field->id()] = $field;
 	}
 
-	public function errors()
+	public function errorFields()
 	{
-		return $this->_errors;
+		$errorFields = array();
+
+		foreach ($this->_fields as $field)
+
+			if ($field->hasErrors())
+
+				$errorFields[] = $field;
+
+		return $errorFields;
 	}
 }
