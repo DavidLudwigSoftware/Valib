@@ -55,27 +55,25 @@ class Template
 
 	public function render($template)
 	{
-		$page = $this->load($template);
-
-		$this->format($page);
+		$page = $this->load('', $template . '.php');
 
 		$this->output($page);
 	}
 
-	public function load($template)
+	public function load($path, $file)
 	{
 		ob_start();
 
-		include VIEW_PATH . '/' . $template . '.php';
+		include VIEW_PATH . '/' . $path . $file;
 
 		$page = ob_get_contents();
 
 		ob_end_clean();
 
-		return $page;
+		return $this->format($path, $page);
 	}
 
-	public function format(&$page)
+	public function format($path, $page)
 	{
 		$metaHtml = "";
 
@@ -92,7 +90,7 @@ class Template
 
 			$cssHtml .= "<link type=\"text/css\" rel=\"stylesheet\" href=\"$value\">\n";
 
-		$page = str_replace('{__STYLESHEETS}', $cssHtml, $page);
+		$page = str_replace('{__STYLESHEETS__}', $cssHtml, $page);
 
 
 		$jsHeadHtml = "";
@@ -117,7 +115,21 @@ class Template
 
 			$page = str_replace('{' . $key . '}', $this->_vars[$key], $page);
 
+		$includes = array();
+
+		$regex = "/\{\s*__INCLUDE__\s*\:\s*.+\}/";
+
+		preg_match($regex, $page, $includes);
+
+		foreach ($includes as $include)
+		{
+			$filePath = $path . trim(preg_split("/\s*\:\s*/", $include)[1], '}');
+			$page     = preg_replace($regex, $this->load(dirname($filePath) . '/', basename($filePath)), $page, 1);
+		}
+
 		$page = preg_replace('/\{.*\}/', '', $page);
+
+		return $page;
 	}
 
 	public function output($page)
