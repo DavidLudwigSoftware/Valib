@@ -11,7 +11,7 @@
 <body>
 	<h1>{HEADER1}</h1>
 	<p>{PARAGRAPH1}</p>
-	<form action="" method="post">
+	<form action="" method="post" enctype="multipart/form-data">
 		<span>First Name</span>
 		<input type="text" name="firstname" value="<?php echo Application::Instance()->request()->post('firstname'); ?>"><br><br>
 		<span>Last Name</span>
@@ -26,6 +26,7 @@
 		<input type="password" name="password" value="<?php echo Application::Instance()->request()->post('password'); ?>"><br><br>
 		<span>Confirm Password</span>
 		<input type="password" name="repassword" value="<?php echo Application::Instance()->request()->post('repassword'); ?>"><br><br>
+		<input type="file" name="image"><br><br>
 		<input type="submit" value="Register">
 	</form>
 	{__JSBODY__}

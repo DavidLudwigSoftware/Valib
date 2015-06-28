@@ -1,9 +1,10 @@
 <?php
 
 
-define('SITE_PATH',  realpath(dirname(PHP_EOL)));
-define('VIEW_PATH',  SITE_PATH . '/view');
-define('MODEL_PATH', SITE_PATH . '/model');
+define('SITE_PATH',    realpath(dirname(PHP_EOL)));
+define('VIEW_PATH',    SITE_PATH . '/view');
+define('MODEL_PATH',   SITE_PATH . '/model');
+define('UPLOAD_PATH',  SITE_PATH . '/upload');
 
 define('STATUS_SUCCESS', 200);
 

@@ -134,6 +134,18 @@ class Cryptography
 		return password_verify($password, $hash);
 	}
 
+	public function generateFileName($ext = '', $length = 32)
+	{
+		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
+		$name = '';
+
+		for ($i = 0; $i < $length; $i++)
+
+			$name .= $chars[rand(0, strlen($chars) - 1)];
+
+		return $name . ".$ext";
+	}
+
 	public function encrypt($data, $password, $method = self::AES_128_CBC, $options = Null, $iv = '0123456789abcdef')
 	{
 		return openssl_encrypt($data, $method, $password, $options, $iv);
