@@ -153,17 +153,17 @@ class Database extends PDO
 		$sql .= " FROM `$table`";
 
 		if ($where)
-		
+
 			$sql .= ' ' . $where->build($values);
-		
+
 
 		if ($order)
-		
+
 			$sql .= $order->build();
-		
+
 
 		if ($limit)
-		
+
 			$sql .= $limit->build();
 
 
@@ -279,7 +279,7 @@ class Database extends PDO
 
 			$where[$key] = $value;
 
-		return (bool) $this->count($table, '*', vWhere(vOr($where)));
+		return (bool) $this->count($table, '*', $this->where($this->dbOr($where)));
 	}
 
 
