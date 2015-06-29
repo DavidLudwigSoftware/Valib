@@ -27,6 +27,7 @@
 		<span>Confirm Password</span>
 		<input type="password" name="repassword" value="{__POST__:repassword}"><br><br>
 		<input type="submit" value="Register">
+		<input type="hidden" name="token" value="{TOKEN}">
 	</form>
 	{__JSBODY__}
 </body>

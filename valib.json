@@ -5,6 +5,15 @@
         "username" : "root",
         "password" : "helloworld",
         "schema"   : "sakila"
-    }
+    },
 
+    "form" : {
+        "field" : {
+            "username" : {
+                "minlength" : 3,
+                "maxlength" : 25,
+                "regex"     : "\\b[A-Za-z][A-Za-z\\-\\_0-9]*"
+            }
+        }
+    }
 }

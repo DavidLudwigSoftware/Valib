@@ -8,11 +8,18 @@ class Form
 	const PASSWORD_NUMBERS    = 0x2;
 	const PASSWORD_SYMBOLS    = 0x4;
 
+	const ERROR_INVALID_TOKEN = 0x0;
+
 	private static $_fields;
 
-	public function validate($fields, $rules = [])
+	public function validate($fields, $rules = [], $token = True)
 	{
 		$formResult = new FormResult();
+
+		if ($token !== True)
+
+			return self::ERROR_INVALID_TOKEN;
+
 
 		foreach ($fields as $field)
 		{
@@ -26,6 +33,24 @@ class Form
 			$rule->validate();
 
 		return $formResult;
+	}
+
+	public function token($tokenId, $tokenValue)
+	{
+		if (isset($_SESSION[$tokenId]) && $_SESSION[$tokenId] === $tokenValue)
+
+			return True;
+
+		return False;
+	}
+
+	public function newToken($tokenId)
+	{
+		$crypt = Application::Instance()->cryptography();
+
+		$_SESSION[$tokenId] = $crypt->randomHash();
+
+		return $_SESSION[$tokenId];
 	}
 
 	public function __call($name, $args)
