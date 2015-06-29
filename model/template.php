@@ -132,7 +132,6 @@ class Template
 
 		$page = str_replace('{__JSHEAD__}', $html, $page);
 
-
 		$html = "";
 
 		foreach ($this->_jsbodyFiles as $value)
@@ -177,7 +176,7 @@ class Template
 
 			$value = trim((isset($array[$getKey])) ? $array[$getKey] : ((isset($parts[2])) ? $parts[2] : ''), '}');
 
-			$page   = preg_replace($regex, trim($value), $page, 1);
+			$page = preg_replace($regex, trim($value), $page, 1);
 		}
 	}
 
