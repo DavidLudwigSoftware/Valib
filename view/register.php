@@ -26,7 +26,6 @@
 		<input type="password" name="password" value="{__POST__:password}"><br><br>
 		<span>Confirm Password</span>
 		<input type="password" name="repassword" value="{__POST__:repassword}"><br><br>
-		<input type="file" name="image"><br><br>
 		<input type="submit" value="Register">
 	</form>
 	{__JSBODY__}

@@ -9,14 +9,11 @@ class RegisterController extends Controller
 
 		if ($r->postExists('firstname', 'lastname',
 							'email', 'phone', 'username',
-							'password', 'repassword') &&
-			$r->fileExists('image'))
+							'password', 'repassword'))
 		{
 			$db    = $app->database();
 			$form  = $app->form();
 			$crypt = $app->cryptography();
-
-			$file = $r->file('image');
 
 			$firstName  = $form->name('firstname',      $r->post('firstname'));
 			$lastName   = $form->name('lastname',       $r->post('lastname'));
@@ -34,8 +31,6 @@ class RegisterController extends Controller
 				foreach ($result->errorFields() as $field)
 
 					echo $field->firstError()->message(), '<br>';
-
-			$file->move(UPLOAD_PATH . '/' . $file->generateName());
 		}
 
 		$t = $app->template();
