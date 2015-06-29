@@ -119,12 +119,46 @@ class Template
 
 		$regex = "/\{\s*__INCLUDE__\s*\:\s*.+\}/";
 
-		preg_match($regex, $page, $includes);
+		preg_match_all($regex, $page, $includes);
 
-		foreach ($includes as $include)
+		foreach ($includes[0] as $include)
 		{
 			$filePath = $path . trim(preg_split("/\s*\:\s*/", $include)[1], '}');
 			$page     = preg_replace($regex, $this->load(dirname($filePath) . '/', basename($filePath)), $page, 1);
+		}
+
+		$keys = array();
+
+		$regex = "/\{\s*__GET__\s*\:\s*.+\}/";
+
+		preg_match_all($regex, $page, $keys);
+
+		foreach ($keys[0] as $key)
+		{
+			$parts = preg_split("/(\s*\:\s*)|(\s*\~\s*)/", $key);
+
+			$getKey = trim($parts[1], '}');
+
+			$value = trim((isset($_GET[$getKey])) ? $_GET[$getKey] : ((isset($parts[2])) ? $parts[2] : ''), '}');
+
+			$page   = preg_replace($regex, trim($value), $page, 1);
+		}
+
+		$keys = array();
+
+		$regex = "/\{\s*__POST__\s*\:\s*.+\}/";
+
+		preg_match_all($regex, $page, $keys);
+
+		foreach ($keys[0] as $key)
+		{
+			$parts = preg_split("/(\s*\:\s*)|(\s*\~\s*)/", $key);
+
+			$postKey = trim($parts[1], '}');
+
+			$value = trim((isset($_POST[$postKey])) ? $_POST[$postKey] : ((isset($parts[2])) ? $parts[2] : ''), '}');
+
+			$page   = preg_replace($regex, trim($value), $page, 1);
 		}
 
 		$page = preg_replace('/\{.*\}/', '', $page);
