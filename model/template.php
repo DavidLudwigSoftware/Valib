@@ -5,52 +5,46 @@ class Template
 {
 	private $_metadata    = array();
 	private $_stylesheets = array();
-	private $_jshead      = array();
-	private $_jsbody      = array();
+	private $_css         = "";
+	private $_jsheadFiles = array();
+	private $_jsbodyFiles = array();
+	private $_jsheadCode  = "";
+	private $_jsbodyCode  = "";
 	private $_vars        = array();
 
-	public function metadata($index, $value = Null)
+	public function addMetadata($name, $value)
 	{
-		if ($value)
-
-			$this->_metadata[$index] = $value;
-
-		else
-
-			return $this->_metadata[$index];
+		$this->_metadata[$name] = $value;
 	}
 
-	public function stylesheet($index, $value = Null)
+	public function addStylesheet($value)
 	{
-		if ($value)
-
-			$this->_stylesheets[$index] = $value;
-
-		else
-
-			return $this->_stylesheets[$index];
+		$this->_stylesheets[] = $value;
 	}
 
-	public function javascriptHead($value = Null)
+	public function addCss($value)
 	{
-		if ($value)
-
-			$this->_jshead[] = $value;
-
-		else
-
-			return $this->_jshead[array_search($value, $this->_jshead)];
+		$this->_css .= "\n\n$value";
 	}
 
-	public function javascriptBody($index, $value = Null)
+	public function addHeadJavascriptFile($value)
 	{
-		if ($value)
+		$this->_jsheadFiles[] = $value;
+	}
 
-			$this->_jsbody[$index] = $value;
+	public function addBodyJavascriptFile($value)
+	{
+		$this->_jsbodyFiles[] = $value;
+	}
 
-		else
+	public function addHeadJavascript($value)
+	{
+		$this->_jsheadCode .= "\n\n$value";
+	}
 
-			return $this->_jsbody[$index];
+	public function addBodyJavascript($value)
+	{
+		$this->_jsbodyCode .= "\n\n$value";
 	}
 
 	public function render($template)
@@ -75,46 +69,85 @@ class Template
 
 	public function format($path, $page)
 	{
-		$metaHtml = "";
+		$this->formatVariables($page);
 
-		foreach (array_keys($this->_metadata) as $name)
+		$this->formatMetadata($page);
 
-			$metaHtml .= "<meta name=\"$name\" content=\"" . $this->_metadata[$name] . "\">\n";
+		$this->formatStylesheets($page);
 
-		$page = str_replace('{__METADATA__}', $metaHtml, $page);
+		$this->formatJavascript($page);
 
+		$this->formatIncludes($path, $page);
 
-		$cssHtml = "";
+		$this->formatFromArray('__GET__',  $_GET,  $page);
+		$this->formatFromArray('__POST__', $_POST, $page);
 
-		foreach ($this->_stylesheets as $value)
+		return $page;
+	}
 
-			$cssHtml .= "<link type=\"text/css\" rel=\"stylesheet\" href=\"$value\">\n";
-
-		$page = str_replace('{__STYLESHEETS__}', $cssHtml, $page);
-
-
-		$jsHeadHtml = "";
-
-		foreach ($this->_jshead as $value)
-
-			$jsHeadHtml .= "<script src=\"$value\"></script>\n";
-
-		$page = str_replace('{__JSHEAD__}', $jsHeadHtml, $page);
-
-
-		$jsBodyHtml = "";
-
-		foreach (array_keys($this->_jsbody) as $value)
-
-			$jsBodyHtml .= "<script src=\"$value\"></script>\n";
-
-		$page = str_replace('{__JSBODY__}', $jsBodyHtml, $page);
-
-
+	protected function formatVariables(&$page)
+	{
 		foreach (array_keys($this->_vars) as $key)
 
 			$page = str_replace('{' . $key . '}', $this->_vars[$key], $page);
+	}
 
+	protected function formatMetadata(&$page)
+	{
+		$html = "";
+
+		foreach (array_keys($this->_metadata) as $name)
+
+			$html .= "<meta name=\"$name\" content=\"" . $this->_metadata[$name] . "\">\n";
+
+		$page = str_replace('{__METADATA__}', $html, $page);
+	}
+
+	protected function formatStylesheets(&$page)
+	{
+		$html = "";
+
+		foreach ($this->_stylesheets as $value)
+
+			$html .= "<link type=\"text/css\" rel=\"stylesheet\" href=\"$value\">\n";
+
+		if (!empty($this->_css))
+
+			$html .= "\n<style>" . $this->_css . "\n\n</style>\n";
+
+		$page = str_replace('{__STYLESHEETS__}', $html, $page);
+	}
+
+	protected function formatJavascript(&$page)
+	{
+		$html = "";
+
+		foreach ($this->_jsheadFiles as $value)
+
+			$html .= "<script src=\"$value\"></script>\n";
+
+		if (!empty($this->_jsheadCode))
+
+			$html .= "\n\n<script>" . $this->_jsheadCode . "\n\n</script>\n\n";
+
+		$page = str_replace('{__JSHEAD__}', $html, $page);
+
+
+		$html = "";
+
+		foreach ($this->_jsbodyFiles as $value)
+
+			$html .= "<script src=\"$value\"></script>\n";
+
+		if (!empty($this->_jsbodyCode))
+
+			$html .= "\n\n<script>" . $this->_jsbodyCode . "\n\n</script>\n\n";
+
+		$page = str_replace('{__JSBODY__}', $html, $page);
+	}
+
+	protected function formatIncludes($path, &$page)
+	{
 		$includes = array();
 
 		$regex = "/\{\s*__INCLUDE__\s*\:\s*.+\}/";
@@ -126,10 +159,13 @@ class Template
 			$filePath = $path . trim(preg_split("/\s*\:\s*/", $include)[1], '}');
 			$page     = preg_replace($regex, $this->load(dirname($filePath) . '/', basename($filePath)), $page, 1);
 		}
+	}
 
+	protected function formatFromArray($varName, $array, &$page)
+	{
 		$keys = array();
 
-		$regex = "/\{\s*__GET__\s*\:\s*.+\}/";
+		$regex = "/\{\s*" . $varName . "\s*\:\s*.+\}/";
 
 		preg_match_all($regex, $page, $keys);
 
@@ -139,31 +175,10 @@ class Template
 
 			$getKey = trim($parts[1], '}');
 
-			$value = trim((isset($_GET[$getKey])) ? $_GET[$getKey] : ((isset($parts[2])) ? $parts[2] : ''), '}');
+			$value = trim((isset($array[$getKey])) ? $array[$getKey] : ((isset($parts[2])) ? $parts[2] : ''), '}');
 
 			$page   = preg_replace($regex, trim($value), $page, 1);
 		}
-
-		$keys = array();
-
-		$regex = "/\{\s*__POST__\s*\:\s*.+\}/";
-
-		preg_match_all($regex, $page, $keys);
-
-		foreach ($keys[0] as $key)
-		{
-			$parts = preg_split("/(\s*\:\s*)|(\s*\~\s*)/", $key);
-
-			$postKey = trim($parts[1], '}');
-
-			$value = trim((isset($_POST[$postKey])) ? $_POST[$postKey] : ((isset($parts[2])) ? $parts[2] : ''), '}');
-
-			$page   = preg_replace($regex, trim($value), $page, 1);
-		}
-
-		$page = preg_replace('/\{.*\}/', '', $page);
-
-		return $page;
 	}
 
 	public function output($page)

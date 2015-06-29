@@ -11,6 +11,8 @@ class IndexController extends Controller
 
         $t->title("Home Page");
 
+		$t->addMetadata("author", "David Ludwig");
+
 		$t->render('index');
 	}
 }

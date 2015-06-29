@@ -13,5 +13,7 @@
         {__INCLUDE__:widgets/test.php}
         <br><br>
         {__GET__:test~hello world, isn't this great}
+
+        {__JSBODY__}
     </body>
 </html>
