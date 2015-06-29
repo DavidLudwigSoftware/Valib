@@ -126,7 +126,7 @@ class Cryptography
 
 	public function passwordHash($password, $algorithm = PASSWORD_BCRYPT, $options = array())
 	{
-		return $password_hash($password, $algorithm, $options);
+		return password_hash($password, $algorithm, $options);
 	}
 
 	public function passwordVerify($password, $hash)
