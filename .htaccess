@@ -9,7 +9,7 @@ RewriteRule ^(.*)$ index.php?vmvcrt=$1 [L,QSA]
 Options -Indexes
 IndexIgnore *
 
-<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak)$">
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak|json)$">
 	Order Allow,Deny
 	Deny from all
 </FilesMatch>
