@@ -49,7 +49,7 @@ class Template
 
 	public function render($template)
 	{
-		$page = $this->load('', $template . '.php');
+		$page = $this->load('', $template);
 
 		$this->output($page);
 	}
@@ -57,6 +57,10 @@ class Template
 	public function load($path, $file)
 	{
 		ob_start();
+
+		if (!empty($path))
+
+			$path = ($path[strlen($path) - 1] == '/') ? $path : $path . '/';
 
 		include VIEW_PATH . '/' . $path . $file;
 
