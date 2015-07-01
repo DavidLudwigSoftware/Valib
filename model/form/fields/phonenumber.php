@@ -3,9 +3,10 @@
 
 class PhoneNumberField extends FormField
 {
-	public function value()
+
+	public function valueFormatted()
 	{
-		if ($this->validate()->isEmpty())
+		if (empty($this->_errors))
 		{
 			$v = implode(preg_split('/\D/', parent::value()));
 			$l = strlen($v);
@@ -19,8 +20,6 @@ class PhoneNumberField extends FormField
 				return '+' . substr($v, 0, $l - 10) . '(' . substr($v, $l - 10, 3) . ') ' . substr($v, $l - 7, 3) . '-' . substr($v, $l - 4);
 
 		}
-
-		return parent::value();
 	}
 
 	public function validate()
