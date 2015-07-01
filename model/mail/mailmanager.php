@@ -25,6 +25,8 @@ class MailManager
         if ($this->_mode == 'smtp')
         {
             $mail->isSMTP();
+            
+            $mail->SMTPDebug = False;
 
             $mail->Host       = $this->_config['host'];
             $mail->Port       = $this->_config['port'];
