@@ -30,7 +30,7 @@ class LoginController extends Controller
             if ($result->isValid())
             {
                 $result = $user->login($username->valueFormatted(), $password->valueFormatted());
-                var_dump($result);
+                
                 if ($result === True)
 
                     $nav->redirect('profile');
