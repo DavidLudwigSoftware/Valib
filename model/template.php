@@ -91,18 +91,18 @@ class Template
 
 	protected function formatVariables(&$page)
 	{
-		foreach (array_keys($this->_vars) as $key)
+		foreach ($this->_vars as $key => $value)
 
-			$page = str_replace('{' . $key . '}', $this->_vars[$key], $page);
+			$page = str_replace('{' . $key . '}', $value, $page);
 	}
 
 	protected function formatMetadata(&$page)
 	{
 		$html = "";
 
-		foreach (array_keys($this->_metadata) as $name)
+		foreach ($this->_metadata as $name => $value)
 
-			$html .= "<meta name=\"$name\" content=\"" . $this->_metadata[$name] . "\">\n";
+			$html .= "<meta name=\"$name\" content=\"" . $value . "\">\n";
 
 		$page = str_replace('{__METADATA__}', $html, $page);
 	}

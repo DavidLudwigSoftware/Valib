@@ -5,7 +5,12 @@ class IndexController extends Controller
 {
 	public function index($app, $data)
 	{
-		$db = $app->database();
+		$user = $app->user();
+
+		if ($user->isLoggedIn())
+
+			$app->navigation()->redirect('profile');
+			
 
 		$t = $app->template();
 
@@ -13,7 +18,7 @@ class IndexController extends Controller
 
 		$t->addMetadata("author", "David Ludwig");
 
-		$t->render('index');
+		$t->render('index.php');
 	}
 }
 

@@ -25,15 +25,13 @@ class MailManager
         if ($this->_mode == 'smtp')
         {
             $mail->isSMTP();
-            
+
             $mail->SMTPDebug = False;
 
             $mail->Host       = $this->_config['host'];
             $mail->Port       = $this->_config['port'];
             $mail->SMTPAuth   = $this->_config['auth'];
             $mail->SMTPSecure = $this->_config['secure'];
-
-            echo "Its smtp";
 
             if ($mail->SMTPAuth)
             {

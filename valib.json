@@ -3,7 +3,7 @@
         "host"     : "localhost",
         "port"     : "3306",
         "username" : "root",
-        "password" : "helloworld",
+        "password" : "",
         "schema"   : "valib"
     },
 
@@ -14,12 +14,16 @@
             "host"     : "smtp.gmail.com",
             "port"     : 587,
             "auth"     : true,
-            "username" : "email@example.com",
-            "password" : "password",
+            "username" : "",
+            "password" : "",
             "secure"   : "tls"
         },
 
         "sendmail" : {}
+    },
+
+    "navigation" : {
+        "baseurl" : "http://localhost/vmvc/"
     },
 
     "form" : {
@@ -33,34 +37,46 @@
     },
 
     "user" : {
-        "cookie"    : "usersession",
         "dbcolumns" : {
-            "username" : [
-                "username",
-                "email"
-            ],
             "password" : "password",
             "session"  : "session",
             "time"     : "time",
             "status"   : "status"
         },
-        "emailverify" : true,
-        "table"       : "users",
-        "emails"      : {
+        "login" : {
+            "cookie" : "usersession",
+            "dbcolumns" : [
+                "username",
+                "email"
+            ],
+            "remember" : 31536000
+        },
+        "tables" : {
+            "users"        : "users",
+            "verifylinks"  : "verify_links",
+            "recoverlinks" : "recovery_links"
+        },
+        "email"      : {
+            "emailverify" : true,
             "register" : {
-                "template" : "registered.php",
-                "from"     : "davidludwigii@gmail.com",
-                "fromname" : "David Ludwig"
+                "template" : "email/registered.php",
+                "subject"  : "Welcome to my website",
+                "from"     : "email@example.com",
+                "fromname" : "Author Name"
             },
             "verify" : {
-                "template" : "verify.php",
-                "from"     : "davidludwigii@gmail.com",
-                "fromname" : "David Ludwig"
+                "template"   : "email/verify.php",
+                "subject"    : "Confirm your account",
+                "from"       : "email@example.com",
+                "fromname"   : "Author Name",
+                "controller" : "verify"
             },
             "recover"  : {
-                "template" : "recover.php",
-                "from"     : "davidludwigii@gmail.com",
-                "fromname" : "David Ludwig"
+                "template" : "email/recover.php",
+                "subject"  : "Password Recovery",
+                "from"     : "email@example.com",
+                "fromname" : "Author Name",
+                "controller" : "recover"
             }
         }
     }

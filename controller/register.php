@@ -5,6 +5,13 @@ class RegisterController extends Controller
 {
 	public function index($app, $data)
 	{
+		$user  = $app->user();
+
+		if ($user->isLoggedIn())
+
+            $app->navigation()->redirect('profile');
+
+
 		$s = $app->session();
 		$s->start();
 
@@ -27,18 +34,33 @@ class RegisterController extends Controller
 			$repassword = $form->password('repassword', $r->post('repassword'));
 
 			$result = $form->validate([$firstName, $lastName, $email, $phone, $username, $password, $repassword],
-									  [$form->matches($repassword, $password, 'Passwords don\'t match')],
+									  [$form->matches($repassword, $password, 'Passwords don\'t match'),
+									   $form->unique('users', 'username', $username, 'Username is already taken'),
+									   $form->unique('users', 'email', $email, 'Email is already in use')],
 									   $form->token('register_token', $r->post('token')));
 
-			if ($result === $form::ERROR_INVALID_TOKEN)
 
-				echo "Invalid token";
-
-			elseif (!$result->isValid())
+			if (!$result->isValid())
 
 				foreach ($result->errorFields() as $field)
 
 					echo $field->firstError()->message(), '<br>';
+
+			else
+			{
+				date_default_timezone_set('America/Chicago');
+
+				$user->register([$firstName->valueFormatted(),
+								 $lastName->valueFormatted(),
+								 $email->valueFormatted(),
+								 $phone->valueFormatted(),
+								 $username->valueFormatted(),
+								 $password->valueFormatted(),
+								 date('Y-m-d H:i:s', time()),
+								 0],
+								 $email->valueFormatted());
+			}
+
 		}
 
 		$t = $app->template();
@@ -48,7 +70,7 @@ class RegisterController extends Controller
 		$t->paragraph1('Fill out the form below to register');
 		$t->token($form->newToken('register_token'));
 
-		$t->render('register');
+		$t->render('register.php');
 	}
 }
 

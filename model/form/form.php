@@ -8,7 +8,9 @@ class Form
 	const PASSWORD_NUMBERS    = 0x2;
 	const PASSWORD_SYMBOLS    = 0x4;
 
-	const ERROR_INVALID_TOKEN = 0x0;
+	const ERROR_NONE          = 0x0;
+	const ERROR_FIELD         = 0x1;
+	const ERROR_INVALID_TOKEN = 0x2;
 
 	private static $_fields;
 
@@ -17,8 +19,11 @@ class Form
 		$formResult = new FormResult();
 
 		if ($token !== True)
+		{
+			$formResult->setErrorReason(self::ERROR_INVALID_TOKEN);
 
-			return self::ERROR_INVALID_TOKEN;
+			return $formResult;
+		}
 
 
 		foreach ($fields as $field)

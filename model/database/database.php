@@ -204,8 +204,9 @@ class Database extends PDO
 			$sql .= ' ' . $where->build($values);
 
 		$query = $this->prepare($sql);
+		$query->execute($values);
 
-		return $query->execute($values);
+		return $query;
 	}
 
 

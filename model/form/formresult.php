@@ -3,11 +3,27 @@
 
 class FormResult
 {
+
 	private $_fields = array();
+	private $_reason = Form::ERROR_NONE;
 
 	public function isValid()
 	{
-		return empty($this->errorFields());
+		if (!empty($this->errorFields()))
+
+			$this->_reason = Form::ERROR_FIELD;
+
+		return $this->_reason === Form::ERROR_NONE;
+	}
+
+	public function errorReason()
+	{
+		return $this->_reason;
+	}
+
+	public function setErrorReason($reason)
+	{
+		$this->_reason = $reason;
 	}
 
 	public function hasError($fieldId)

@@ -9,11 +9,9 @@
     	{__JSHEAD__}
     </head>
     <body>
-        <a href="register">Register</a>
-        {__INCLUDE__:widgets/test.php}
-        <br><br>
-        {__GET__:test~hello world, isn't this great}
-
+        <h1>Valib MVC 0.9.0</h1>
+        <a href="login"><button>Login</button></a>
+        <a href="register"><button>Register</button></a>
         {__JSBODY__}
     </body>
 </html>
