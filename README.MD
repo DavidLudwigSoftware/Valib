@@ -1,4 +1,4 @@
-Valib v0.8.0
+Valib v0.9.0
 
 Created by David Ludwig
 http://davidludwig.net
@@ -14,6 +14,10 @@ Some of Valib's features include:
 	Session and Cookie Management
 
 	Request Management
+
+	Mail wrapper using PHPMailer
+
+	User Management
 
 	Cryptography using OpenSSL
 
