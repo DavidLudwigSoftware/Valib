@@ -6,7 +6,7 @@ class User
     const STATUS_UNVERIFIED = 0;
     const STATUS_ACTIVE     = 1;
     const STATUS_LOCKED     = 2;
-    CONST STATUS_DELETED    = 3;
+    const STATUS_DELETED    = 3;
 
     private $_db;
     private $_login;
@@ -132,7 +132,7 @@ class User
     {
         $db = Application::Instance()->database();
 
-        $result = $db->update($this->_tables['users'], ['status' => $status], $db->where(['id' => $accountId]));
+        $result = $db->update($this->_tables['users'], [$this->_columns['status'] => $status], $db->where(['id' => $accountId]));
 
         return ($result->rowCount() > 0) ? True : False;
     }
@@ -179,19 +179,19 @@ class User
 
             switch ($fieldName)
             {
-                case 'session':
+                case $this->_columns['session']:
                     $value = Null;
                     break;
 
-                case 'time':
+                case $this->_columns['time']:
                     $value = time();
                     break;
 
-                case 'password':
+                case $this->_columns['password']:
                     $value = $crypt->passwordHash(array_shift($values));
                     break;
 
-                case 'status':
+                case $this->_columns['status']:
                     $value = ($this->_email['emailverify']) ? 0 : 1;
                     break;
 
@@ -232,6 +232,10 @@ class User
         {
             if ($crypt->passwordVerify($password, $result[0][$this->_columns['password']]))
             {
+                if (intval($result[0][$this->_columns['status']]) !== self::STATUS_ACTIVE)
+
+                    return intval($result[0][$this->_columns['status']]);
+
                 $cookie = Application::Instance()->cookie();
                 $session = $crypt->randomHash();
 

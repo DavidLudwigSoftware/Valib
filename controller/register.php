@@ -59,6 +59,8 @@ class RegisterController extends Controller
 								 date('Y-m-d H:i:s', time()),
 								 0],
 								 $email->valueFormatted());
+
+				exit('A verification email has been sent to our email address');
 			}
 
 		}

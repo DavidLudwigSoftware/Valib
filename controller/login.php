@@ -29,9 +29,19 @@ class LoginController extends Controller
 
             if ($result->isValid())
             {
-                if ($user->login($username->valueFormatted(), $password->valueFormatted()))
+                $result = $user->login($username->valueFormatted(), $password->valueFormatted());
+                var_dump($result);
+                if ($result === True)
 
                     $nav->redirect('profile');
+
+                elseif ($result === $user::STATUS_UNVERIFIED)
+
+                    $t->errors("Your account has not yet been verified");
+
+                elseif ($result === $user::STATUS_LOCKED)
+
+                    $t->errors('Your account is locked. Please contact the administrator to unlock your account.');
 
                 else
 
